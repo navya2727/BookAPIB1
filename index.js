@@ -178,7 +178,13 @@ parameters          isbn
 Method              PUT
 */
 shapeAI.put("/publication/update/book/:isbn", (req, res) => {
-    database.publications.forEach(data) 
+    database.publications.forEach((publication) => {
+        if(publication.id === req.body.pubId) {
+            return database.publications.books.push(req.params.isbn);
+
+        }
+
+    });
         
     });
 
