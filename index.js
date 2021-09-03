@@ -113,7 +113,82 @@ shapeAI.post("/book/new", (req, res) => {
     return res.json({books: database.books, message:"book was added!"});
 });
 
-shapeAI.listen(3000, () => console.log("Server running!!"));
+/*
+Route               /author/new
+Description         add new author
+Access              PUBLIC
+parameters          NONE
+Method              POST
+*/
+shapeAI.post("/author/new", (req, res) => {
+    const {newAuthor } = req.body;
+    database.authors.push(newAuthor);
+    return res.json({authors: database.authors, message:"author was added!"});
+});
+
+/*
+Route               /book/update/:title
+Description         update title of a book
+Access              PUBLIC
+parameters          isbn
+Method              PUT
+*/
+shapeAI.put("/book/update/:isbn", (req, res) => {
+    database.books.forEach((book) => {
+        if (book.ISBN === req.params.isbn){
+            book.title = req.body.bookTitle;
+            return;
+
+        }
+    });
+
+    return res.json({ books:database.books});
+});
+/*
+Route               /book/author/update
+Description         update/add new author
+Access              PUBLIC
+parameters          isbn
+Method              PUT
+*/
+shapeAI.put("/book/author/update/:isbn", (req, res) => {
+    database.books.forEach((book) => {
+        if (book.ISBN === req.params.isbn) 
+        return book.authors.push(req.body.newAuthor);
+            
+    });
+
+    database.authors.forEach((author) => {
+        if(author.id === req.body.newAuthor)
+        return author.books.push(req.params.isbn);
+    });
+    
+    return res.json({
+        books:database.books,
+        authors:database.authors,
+        message:"New author was added",
+    });
+
+});
+/*
+Route               /publicatin/update/book
+Description         update/add new book to a publication
+Access              PUBLIC
+parameters          isbn
+Method              PUT
+*/
+shapeAI.put("/publication/update/book/:isbn", (req, res) => {
+    database.publications.forEach(data) 
+        
+    });
+
+    
+
+
+ shapeAI.listen(3000, () => console.log("Server running!!"));
+
+
+
 
 
 
